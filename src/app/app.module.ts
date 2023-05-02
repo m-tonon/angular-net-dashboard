@@ -11,6 +11,8 @@ import { HealthComponent } from './pages/health/health.component';
 import { BarChartComponent } from './charts/bar-chart/bar-chart.component';
 import { LineChartComponent } from './charts/line-chart/line-chart.component';
 import { PieChartComponent } from './charts/pie-chart/pie-chart.component';
+import { NgChartsModule } from 'ng2-charts';
+
 
 @NgModule({
   declarations: [
@@ -27,6 +29,7 @@ import { PieChartComponent } from './charts/pie-chart/pie-chart.component';
   imports: [
     BrowserModule,
     AppRoutingModule,
+    NgChartsModule
   ],
   providers: [],
   bootstrap: [AppComponent]
