@@ -8,6 +8,11 @@ import { SidebarComponent } from './components/sidebar/sidebar.component';
 import { SalesComponent } from './pages/sales/sales.component';
 import { OrdersComponent } from './pages/orders/orders.component';
 import { HealthComponent } from './pages/health/health.component';
+import { BarChartComponent } from './charts/bar-chart/bar-chart.component';
+import { LineChartComponent } from './charts/line-chart/line-chart.component';
+import { PieChartComponent } from './charts/pie-chart/pie-chart.component';
+import { NgChartsModule } from 'ng2-charts';
+
 
 @NgModule({
   declarations: [
@@ -16,11 +21,15 @@ import { HealthComponent } from './pages/health/health.component';
     SidebarComponent,
     SalesComponent,
     OrdersComponent,
-    HealthComponent
+    HealthComponent,
+    BarChartComponent,
+    LineChartComponent,
+    PieChartComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
+    NgChartsModule
   ],
   providers: [],
   bootstrap: [AppComponent]
