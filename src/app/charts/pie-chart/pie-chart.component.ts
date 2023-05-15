@@ -10,9 +10,19 @@ export class PieChartComponent implements OnInit{
   
   constructor() { }
 
-  pieChartData = [{ data: [350, 450, 120]}];
+  pieChartDatasets = [
+    { 
+      data: [350, 450, 120],
+      backgroundColor: [
+        '#FF6384',
+        '#36A2EB',
+        '#FFCE56'
+      ],
+      borderColor: '#1c2228',
+    }
+  ];
   pieChartLabels: string[] = ['XYZ Logistics', 'Main St Bakery', 'Acme Hosting'];
-  
+
   ngOnInit(): void {
   }
 }
