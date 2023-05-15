@@ -54,3 +54,12 @@ a:hover {
 .section-container {
   padding: 30px;
 }
+
+.card-body {
+  height: 250px;
+}
+
+.chart {
+  display: flex;
+  max-height: 100%;
+}
