@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "ic8nfNPAZ3SGdg2WZNgwKUUr00KIFvbyoZgvV4dUcCsAPqiGVMdcLMGLAKkiW5lqPzPZKP9jgAbZ0wbh8TDcpg==",
+  "dgSpecHash": "5KGwiUJKXgGRRxFohH6aNETBIp8WFGIe9ZOxJs+msxzflzlc5S6mQh5DpWfGxdYHNOf6aCJEMA5OrXXE4o1C2Q==",
   "success": true,
   "projectFilePath": "/home/mtonon/Web Dev/Angular/projects/angular-net-dashboard/AdvantageApi/AdvantageApi.csproj",
   "expectedPackageFiles": [
@@ -33,7 +33,8 @@
     "/home/mtonon/.nuget/packages/system.codedom/4.4.0/system.codedom.4.4.0.nupkg.sha512",
     "/home/mtonon/.nuget/packages/system.runtime.compilerservices.unsafe/6.0.0/system.runtime.compilerservices.unsafe.6.0.0.nupkg.sha512",
     "/home/mtonon/.nuget/packages/system.text.encodings.web/7.0.0/system.text.encodings.web.7.0.0.nupkg.sha512",
-    "/home/mtonon/.nuget/packages/system.text.json/7.0.0/system.text.json.7.0.0.nupkg.sha512"
+    "/home/mtonon/.nuget/packages/system.text.json/7.0.0/system.text.json.7.0.0.nupkg.sha512",
+    "/home/mtonon/.nuget/packages/microsoft.netcore.app.host.linux-x64/6.0.16/microsoft.netcore.app.host.linux-x64.6.0.16.nupkg.sha512"
   ],
   "logs": []
 }
