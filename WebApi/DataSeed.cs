@@ -18,18 +18,21 @@ namespace WebApi
       if (!_ctx.Customer.Any())
       {
         SeedCustomers(nCustomers);
+        _ctx.SaveChanges();
       }
 
       if (!_ctx.Orders.Any())
       {
         SeedOrders(nCustomers);
+        _ctx.SaveChanges();
       }
 
       if (!_ctx.Servers.Any())
       {
         SeedServers();
+        _ctx.SaveChanges();
       }
-      _ctx.SaveChanges();
+
     }
 
     private void SeedCustomers(int n)
