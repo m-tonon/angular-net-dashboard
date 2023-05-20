@@ -27,28 +27,38 @@ namespace WebApi
 
       if (!_ctx.Servers.Any())
       {
-        SeedServers(nCustomers);
+        SeedServers();
       }
-        _ctx.SaveChanges();
+      _ctx.SaveChanges();
     }
 
     private void SeedCustomers(int n)
     {
       List<Customer> customers = BuildCustomerList(n);
 
-      foreach(var customer in customers)
+      foreach (var customer in customers)
       {
         _ctx.Customer.Add(customer);
       }
     }
 
-    private void SeedOrders(int n) 
+    private void SeedOrders(int n)
     {
       List<Order> orders = BuildOrderList(n);
 
-      foreach(var order in orders)
+      foreach (var order in orders)
       {
         _ctx.Orders.Add(order);
+      }
+    }
+
+    private void SeedServers()
+    {
+      List<Server> servers = BuildServerList();
+
+      foreach (var server in servers)
+      {
+        _ctx.Servers.Add(server);
       }
     }
 
@@ -61,9 +71,10 @@ namespace WebApi
       {
         var name = Helpers.MakeUniqueCustomerName(names);
         names.Add(name);
-        
 
-        customers.Add(new Customer {
+
+        customers.Add(new Customer
+        {
           Id = i,
           Name = name,
           Email = Helpers.MakeCustomerEmail(name),
@@ -85,7 +96,8 @@ namespace WebApi
         var placed = Helpers.GetRandomOrderPlaced();
         var completed = Helpers.GetRandomOrderCompleted(placed);
 
-        orders.Add(new Order{
+        orders.Add(new Order
+        {
           Id = i,
           Customer = _ctx.Customer.First(c => c.Id == randCustomerId),
           Total = Helpers.GetRandomOrderTotal(),
@@ -97,5 +109,56 @@ namespace WebApi
       return orders;
     }
 
+    private List<Server> BuildServerList()
+    {
+      return new List<Server>()
+      {
+        new Server {
+          Id = 1,
+          Name = "Dev-Web",
+          isOnline = true
+        },
+        new Server {
+          Id = 2,
+          Name = "Dev-Mail",
+          isOnline = false
+        },
+        new Server {
+          Id = 3,
+          Name = "Dev-Services",
+          isOnline = true
+        },
+        new Server {
+          Id = 4,
+          Name = "QA-Web",
+          isOnline = true
+        },
+        new Server {
+          Id = 5,
+          Name = "QA-Mail",
+          isOnline = false
+        },
+        new Server {
+          Id = 6,
+          Name = "QA-Services",
+          isOnline = true
+        },
+        new Server {
+          Id = 7,
+          Name = "Prod-Web",
+          isOnline = true
+        },
+        new Server {
+          Id = 8,
+          Name = "Prod-Mail",
+          isOnline = true
+        },
+        new Server {
+          Id = 9,
+          Name = "Prod-Services",
+          isOnline = true
+        }
+      };
+    }
   }
 }
