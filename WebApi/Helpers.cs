@@ -46,6 +46,31 @@ namespace WebApi
       return _rand.Next(100, 5000);
     }
 
+    internal static DateTime GetRandomOrderPlaced()
+    {
+      var end = DateTime.Now;
+      var start = end.AddDays(-90);
+
+      TimeSpan possibleSpan = end - start;
+      TimeSpan newSpan = new TimeSpan(0, _rand.Next(0, (int)possibleSpan.TotalMinutes), 0);
+
+      return start + newSpan;
+    }
+
+    internal static DateTime? GetRandomOrderCompleted(DateTime orderPlaced)
+    {
+      var now = DateTime.Now;
+      var minLeadTime = TimeSpan.FromDays(7);
+      var timePassed = now - orderPlaced;
+
+      if (timePassed < minLeadTime) 
+      {
+        return null;
+      }
+
+      return orderPlaced.AddDays(_rand.Next(7, 14));
+    }
+
     private static readonly List<string> usStates = new List<string>()
     {
       "AK", "AL", "AR", "AZ", "CA", "CO", "CT", "DC", "DE", "FL",

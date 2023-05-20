@@ -93,6 +93,8 @@ namespace WebApi
           Completed = completed
         });
       }
+
+      return orders;
     }
 
   }
