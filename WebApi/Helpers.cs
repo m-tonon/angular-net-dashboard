@@ -41,6 +41,11 @@ namespace WebApi
       return GetRandom(usStates);
     }
 
+    internal static decimal GetRandomOrderTotal()
+    {
+      return _rand.Next(100, 5000);
+    }
+
     private static readonly List<string> usStates = new List<string>()
     {
       "AK", "AL", "AR", "AZ", "CA", "CO", "CT", "DC", "DE", "FL",

@@ -42,6 +42,16 @@ namespace WebApi
       }
     }
 
+    private void SeedOrders(int n) 
+    {
+      List<Order> orders = BuildOrderList(n);
+
+      foreach(var order in orders)
+      {
+        _ctx.Orders.Add(order);
+      }
+    }
+
     private List<Customer> BuildCustomerList(int nCustomers)
     {
       var customers = new List<Customer>();
@@ -62,6 +72,27 @@ namespace WebApi
       }
 
       return customers;
+    }
+
+    private List<Order> BuildOrderList(int nOrders)
+    {
+      var orders = new List<Order>();
+      var rand = new Random();
+
+      for (var i = 1; i <= nOrders; i++)
+      {
+        var randCustomerId = rand.Next(_ctx.Customer.Count());
+        var placed = Helpers.GetRandomOrderPlaced();
+        var completed = Helpers.GetRandomOrderCompleted(placed);
+
+        orders.Add(new Order{
+          Id = i,
+          Customer = _ctx.Customer.First(c => c.Id == randCustomerId),
+          Total = Helpers.GetRandomOrderTotal(),
+          Placed = placed,
+          Completed = completed
+        });
+      }
     }
 
   }
