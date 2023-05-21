@@ -18,7 +18,7 @@ namespace WebApi.Data
             options.UseNpgsql(Configuration.GetConnectionString("WebApiDatabase"));
         }
 
-        public DbSet<Customer> Customer { get; set; }
+        public DbSet<Customer> Customers { get; set; }
         public DbSet<Order> Orders { get; set; }
         public DbSet<Server> Servers { get; set; }
     }
