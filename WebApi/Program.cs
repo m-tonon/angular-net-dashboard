@@ -1,5 +1,4 @@
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
 using WebApi;
 using WebApi.Data;
 
@@ -11,6 +10,17 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+// Register IConfiguration
+builder.Configuration.AddJsonFile("appsettings.json");
+var configuration = builder.Configuration;
+builder.Services.AddSingleton<IConfiguration>(configuration);
+
+// Register AppDbContext
+builder.Services.AddDbContext<AppDbContext>(options =>
+{
+    options.UseNpgsql(configuration.GetConnectionString("WebApiDatabase"));
+});
 
 builder.Services.AddTransient<DataSeed>();
 
