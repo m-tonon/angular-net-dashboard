@@ -48,7 +48,7 @@ namespace WebApi
 
     internal static DateTime GetRandomOrderPlaced()
     {
-      var end = DateTime.Now;
+      var end = DateTime.UtcNow;
       var start = end.AddDays(-90);
 
       TimeSpan possibleSpan = end - start;
@@ -59,7 +59,7 @@ namespace WebApi
 
     internal static DateTime? GetRandomOrderCompleted(DateTime orderPlaced)
     {
-      var now = DateTime.Now;
+      var now = DateTime.UtcNow;
       var minLeadTime = TimeSpan.FromDays(7);
       var timePassed = now - orderPlaced;
 

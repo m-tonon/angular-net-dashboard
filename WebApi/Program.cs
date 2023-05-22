@@ -1,5 +1,4 @@
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
 using WebApi;
 using WebApi.Data;
 
@@ -12,6 +11,17 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+// Register IConfiguration
+builder.Configuration.AddJsonFile("appsettings.json");
+var configuration = builder.Configuration;
+builder.Services.AddSingleton<IConfiguration>(configuration);
+
+// Register AppDbContext
+builder.Services.AddDbContext<AppDbContext>(options =>
+{
+  options.UseNpgsql(configuration.GetConnectionString("WebApiDatabase"));
+});
+
 builder.Services.AddTransient<DataSeed>();
 
 var app = builder.Build();
@@ -19,27 +29,34 @@ var app = builder.Build();
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
-    app.UseSwagger();
-    app.UseSwaggerUI();
+  app.UseSwagger();
+  app.UseSwaggerUI();
 
-    using (var scope = app.Services.CreateScope())
-    {
-        var service = scope.ServiceProvider;
-        var dbContext = service.GetRequiredService<AppDbContext>();
-        var dataSeed = service.GetRequiredService<DataSeed>();
+  using (var scope = app.Services.CreateScope())
+  {
+    var service = scope.ServiceProvider;
+    var dbContext = service.GetRequiredService<AppDbContext>();
+    var dataSeed = service.GetRequiredService<DataSeed>();
 
-        // seed the data
-        dataSeed.SeedData(20, 1000);
+    // seed the data
+    dataSeed.SeedData(20, 1000);
 
-        // migrate the database
-        dbContext.Database.Migrate();
-    }
+    // migrate the database
+    dbContext.Database.Migrate();
+  }
 
 }
 
 app.UseHttpsRedirection();
 
+app.UseRouting();
 app.UseAuthorization();
+
+app.MapGet("/", () =>
+{
+  return "App is working!";
+}
+);
 
 app.MapControllers();
 
