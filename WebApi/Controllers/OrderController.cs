@@ -71,7 +71,7 @@ public class OrderController : ControllerBase
       return Ok(groupResult);
   }
 
-  [HttpGet("GetOrder/{}", Name = "GetOrder")]
+  [HttpGet("GetOrder/{id}", Name = "GetOrder")]
   public IActionResult GetOrder(int id)
   {
     var order = _ctx.Orders.Include(o => o.Customer)
