@@ -35,4 +35,49 @@ public class OrderController : ControllerBase
 
     return Ok();
   }
+
+  [HttpGet("ByState")]
+  public IActionResult ByState()
+  {
+    var orders = _ctx.Orders.Include(o => o.Customer).ToList();
+
+    var groupResult = orders.GroupBy(o => o.Customer?.State)
+      .ToList()
+      .Select(grp => new
+      {
+        State = grp.Key,
+        Total = grp.Sum(x => x.Total)
+      }).OrderByDescending(res => res.Total)
+      .ToList();
+
+      return Ok(groupResult);
+  }
+
+  [HttpGet("ByCustomer/{n}")]
+  public IActionResult ByCustomer(int n)
+  {
+    var orders = _ctx.Orders.Include(o => o.Customer).ToList();
+
+    var groupResult = orders.GroupBy(o => o.Customer?.Id)
+      .ToList()
+      .Select(grp => new
+      {
+        State = _ctx.Customers?.Find(grp.Key)?.Name,
+        Total = grp.Sum(x => x.Total)
+      }).OrderByDescending(res => res.Total)
+      .Take(n)
+      .ToList();
+
+      return Ok(groupResult);
+  }
+
+  [HttpGet("GetOrder/{}", Name = "GetOrder")]
+  public IActionResult GetOrder(int id)
+  {
+    var order = _ctx.Orders.Include(o => o.Customer)
+      .First(o => o.Id == id);
+    
+    return Ok(order);
+  }
+
 }
