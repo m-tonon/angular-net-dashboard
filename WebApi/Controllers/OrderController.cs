@@ -33,7 +33,7 @@ public class OrderController : ControllerBase
       TotalPages = totalPages
     };
 
-    return Ok();
+    return Ok(response);
   }
 
   [HttpGet("ByState")]
@@ -62,7 +62,7 @@ public class OrderController : ControllerBase
       .ToList()
       .Select(grp => new
       {
-        State = _ctx.Customers?.Find(grp.Key)?.Name,
+        State = _ctx.Customers.Find(grp.Key)?.Name,
         Total = grp.Sum(x => x.Total)
       }).OrderByDescending(res => res.Total)
       .Take(n)
