@@ -24,6 +24,13 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 
 builder.Services.AddTransient<DataSeed>();
 
+// Configure CORS
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("CorsPolicy",
+        builder => builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
+});
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -31,6 +38,7 @@ if (app.Environment.IsDevelopment())
 {
   app.UseSwagger();
   app.UseSwaggerUI();
+  app.UseCors("CorsPolicy"); // Use the defined CORS policy
 
   using (var scope = app.Services.CreateScope())
   {
