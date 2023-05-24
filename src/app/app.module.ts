@@ -14,6 +14,7 @@ import { PieChartComponent } from './charts/pie-chart/pie-chart.component';
 import { NgChartsModule } from 'ng2-charts';
 import { ServerComponent } from './pages/health/components/server/server.component';
 import { PaginationComponent } from './components/pagination/pagination.component';
+import { HttpClientModule } from '@angular/common/http';
 
 
 @NgModule({
@@ -32,6 +33,7 @@ import { PaginationComponent } from './components/pagination/pagination.componen
     BrowserModule,
     AppRoutingModule,
     NgChartsModule,
+    HttpClientModule,
     ServerComponent,
     PaginationComponent
   ],
