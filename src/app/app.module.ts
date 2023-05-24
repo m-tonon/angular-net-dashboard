@@ -13,6 +13,8 @@ import { LineChartComponent } from './charts/line-chart/line-chart.component';
 import { PieChartComponent } from './charts/pie-chart/pie-chart.component';
 import { NgChartsModule } from 'ng2-charts';
 import { ServerComponent } from './pages/health/components/server/server.component';
+import { PaginationComponent } from './components/pagination/pagination.component';
+import { HttpClientModule } from '@angular/common/http';
 
 
 @NgModule({
@@ -31,7 +33,9 @@ import { ServerComponent } from './pages/health/components/server/server.compone
     BrowserModule,
     AppRoutingModule,
     NgChartsModule,
-    ServerComponent
+    HttpClientModule,
+    ServerComponent,
+    PaginationComponent
   ],
   providers: [],
   bootstrap: [AppComponent]
