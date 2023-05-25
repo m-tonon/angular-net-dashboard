@@ -1,4 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
+import { THEMES_COLORS } from 'src/app/shared/themes.colors';
+
+const theme = 'Bright';
 
 @Component({
   selector: 'app-pie-chart',
@@ -10,13 +13,14 @@ export class PieChartComponent implements OnInit{
   
   constructor() { }
 
+  @Input() inputData: any;
+  @Input() limit?: number;
+
   pieChartDatasets = [
     { 
       data: [350, 450, 120],
       backgroundColor: [
-        '#FF6384',
-        '#36A2EB',
-        '#FFCE56'
+        ...this.themeColors(theme),
       ],
       borderColor: '#1c2228',
     }
@@ -24,5 +28,18 @@ export class PieChartComponent implements OnInit{
   pieChartLabels: string[] = ['XYZ Logistics', 'Main St Bakery', 'Acme Hosting'];
 
   ngOnInit(): void {
+    this.parseChartData(this.inputData, this.limit);
   }
+
+  parseChartData(res: any, limit?: number) {
+    const allData = res.slice(0, 5); 
+    
+    this.pieChartDatasets[0].data = allData.map((x: any) => x.total);
+    this.pieChartLabels = allData.map((x:any) => x.state);
+  }
+
+  themeColors(setName: string): string[] {
+    const c = THEMES_COLORS.slice(0).find(set => set.name === setName)!.colorSet;
+    return c;
+ }
 }
