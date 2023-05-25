@@ -18,7 +18,6 @@
           </div>
           <div class="card-body">
             <app-pie-chart 
-              *ngIf="salesDataByCustomer" 
               [inputData]="salesDataByCustomer" [limit]="3" />
           </div>
         </div>
@@ -30,7 +29,6 @@
           </div>
           <div class="card-body">
             <app-pie-chart 
-              *ngIf="salesDataByState" 
               [inputData]="salesDataByState" [limit]="5"/>
           </div>
         </div>
