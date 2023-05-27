@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import * as moment from 'moment';
+import { SalesDataService } from 'src/app/services/sales-data.service';
 
 const LINE_CHART_SAMPLE_DATA: any[] = [
   {
@@ -53,8 +55,6 @@ const LINE_CHART_LABELS: string[] = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'];
   styleUrls: ['./line-chart.component.css'],
 })
 export class LineChartComponent implements OnInit {
-  constructor() {}
-
   lineChartData: any[] = LINE_CHART_SAMPLE_DATA;
   lineChartLabels: string[] = LINE_CHART_LABELS;
   lineChartOptions: any = {
@@ -62,5 +62,121 @@ export class LineChartComponent implements OnInit {
   };
   lineChartLegend = true;
 
-  ngOnInit() {}
+  topCustomers?: string[];
+  allOrders?: any[];
+
+  constructor(private _salesDataService: SalesDataService) {}
+
+  ngOnInit() {
+    this._salesDataService.getOrders(1, 100).subscribe((res: any) => {
+      this.allOrders = res.page.data;
+
+      this._salesDataService.getOrdersByCustomer(3).subscribe((cus: any) => {
+        this.topCustomers = cus.map((x: any) => x.state);
+
+        const allChartData = this.topCustomers?.reduce((result: any, i) => {
+          result.push(this.getChartData(this.allOrders, i));
+          return result;
+        }, []);
+
+        let dates = allChartData.map((x: any) =>
+          x.data.reduce((acum: any, itin: any) => {
+            acum.push(itin.map((o: any) => new Date(o)));
+            return acum;
+          }, [])
+        );
+
+        dates = [].concat.apply([], dates);
+
+        const customerByDate = this.getCustomerOrdersByDate(
+          allChartData,
+          dates
+        );
+
+        const labels = customerByDate['data'];
+
+        this.lineChartLabels = customerByDate['data'][0]['orders'].map(
+          (order: any) => order.date
+        );
+
+        this.lineChartData = [
+          {
+            data: customerByDate.data[0].orders.map((ord: any) => ord.total),
+            label: customerByDate.data[0].customer,
+          },
+          {
+            data: customerByDate.data[1].orders.map((ord: any) => ord.total),
+            label: customerByDate.data[1].customer,
+          },
+          {
+            data: customerByDate.data[2].orders.map((ord: any) => ord.total),
+            label: customerByDate.data[2].customer,
+          }
+        ];
+      });
+    });
+  }
+
+  getChartData(allOrders: any, name: string) {
+    const customerOrders = allOrders.filter(
+      (o: any) => o.customer.name === name
+    );
+
+    const formattedOrders = customerOrders.reduce((res: any, elem: any) => {
+      res.push([elem.placed, elem.total]);
+      return res;
+    }, []);
+
+    const result = { customer: name, data: formattedOrders };
+    return result;
+  }
+
+  getCustomerOrdersByDate(orders: any, dates: any) {
+    // for each customer -> for each date =>
+    // { data: [{'customer': 'XYZ', 'orders': [{ 'date': '23-11-25', total: 2421}, {}]}, {}, {}]}
+
+    const customers = this.topCustomers;
+    const prettyDates = dates.map((date: any) => this.toFriendlyDate(date[0]));
+    const uniqueDates = Array.from(new Set(prettyDates)).sort();
+
+    // define our result object to return
+    const result = { data: [] as any[] };
+    let dataSets: { customer: any; orders: any }[] = result.data;
+
+    customers!.reduce((acc: any, customer, index) => {
+      const customerOrders: any = [];
+      dataSets[index] = {
+        customer: customer,
+        orders: uniqueDates.reduce((innerAcc: any, date: any) => {
+          const obj = { date: '', total: '' };
+          obj['date'] = date;
+          obj['total'] = this.getCustomerDateTotal(date, customer);
+          // sum total orders for this customer on this date
+          customerOrders.push(obj);
+          return innerAcc;
+        }, customerOrders),
+      };
+      return acc;
+    }, []);
+
+    return result;
+  }
+
+  toFriendlyDate(date: Date) {
+    return moment(date).endOf('day').format('YY-MM-DD');
+  }
+
+  getCustomerDateTotal(date: any, customer: string) {
+    const ordersByCustomer = this.allOrders?.filter(
+      (order: any) =>
+        order.customer.name === customer &&
+        this.toFriendlyDate(order.placed) === date
+    );
+
+    const ordersTotal = ordersByCustomer?.reduce((acc: any, order: any) => {
+      return acc + order.total;
+    }, 0);
+
+    return ordersTotal;
+  }
 }
