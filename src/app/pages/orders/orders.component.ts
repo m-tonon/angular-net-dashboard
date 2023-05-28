@@ -21,7 +21,7 @@ export class OrdersComponent implements OnInit {
       },
       total: 230,
       placed: new Date(2022, 12, 1),
-      fulfilled: new Date(2022, 12, 2),
+      completed: new Date(2022, 12, 2),
     },
     {
       id: 2,
@@ -33,7 +33,7 @@ export class OrdersComponent implements OnInit {
       },
       total: 230,
       placed: new Date(2022, 12, 1),
-      fulfilled: new Date(2022, 12, 2),
+      completed: new Date(2022, 12, 2),
     },
     {
       id: 3,
@@ -45,7 +45,7 @@ export class OrdersComponent implements OnInit {
       },
       total: 230,
       placed: new Date(2022, 12, 1),
-      fulfilled: new Date(2022, 12, 2),
+      completed: new Date(2022, 12, 2),
     },
     {
       id: 4,
@@ -57,7 +57,7 @@ export class OrdersComponent implements OnInit {
       },
       total: 230,
       placed: new Date(2022, 12, 1),
-      fulfilled: new Date(2022, 12, 2),
+      completed: new Date(2022, 12, 2),
     },
     {
       id: 5,
@@ -69,12 +69,13 @@ export class OrdersComponent implements OnInit {
       },
       total: 230,
       placed: new Date(2022, 12, 1),
-      fulfilled: new Date(2022, 12, 2),
+      completed: new Date(2022, 12, 2),
     },
   ];
   total = 0;
   page = 1;
   limit = 10;
+  loading = false;
 
   ngOnInit(): void {
     this.getOrders();
@@ -83,7 +84,27 @@ export class OrdersComponent implements OnInit {
   getOrders(): void {
     this._salesData.getOrders(this.page, this.limit)
       .subscribe((res: any) => {
+        // console.log('Result from getOrders:', res);
         this.orders = res.page.data;
-      })
+        this.total = res.page.total;
+        this.loading = false;
+    });
+  }
+
+  goToPrevious(): void {
+    // console.log('Previous Button Clicked');
+    this.page--;
+    this.getOrders();
+  }
+
+  goToNext(): void {
+    // console.log('Next Button Clicked');
+    this.page++;
+    this.getOrders();
+  }
+
+  goToPage(n: number) {
+    this.page = n;
+    this.getOrders();
   }
 }
