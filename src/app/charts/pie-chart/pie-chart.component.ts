@@ -28,11 +28,13 @@ export class PieChartComponent implements OnInit{
   pieChartLabels: string[] = ['XYZ Logistics', 'Main St Bakery', 'Acme Hosting'];
 
   ngOnInit(): void {
-    this.parseChartData(this.inputData, this.limit);
+    if (this.inputData) {
+      this.parseChartData(this.inputData, this.limit);
+    }
   }
 
   parseChartData(res: any, limit?: number) {
-    const allData = res.slice(0, 5); 
+    const allData = res.slice(0, limit || 5);
     
     this.pieChartDatasets[0].data = allData.map((x: any) => x.total);
     this.pieChartLabels = allData.map((x:any) => x.state);
