@@ -99,20 +99,16 @@ export class LineChartComponent implements OnInit {
           (order: any) => order.date
         );
 
-        this.lineChartData = [
-          {
-            data: customerByDate.data[0].orders.map((ord: any) => ord.total),
-            label: customerByDate.data[0].customer,
-          },
-          {
-            data: customerByDate.data[1].orders.map((ord: any) => ord.total),
-            label: customerByDate.data[1].customer,
-          },
-          {
-            data: customerByDate.data[2].orders.map((ord: any) => ord.total),
-            label: customerByDate.data[2].customer,
-          }
-        ];
+        const dataLineChart = customerByDate.data.map((obj: any) => {
+          const lineData = {
+            data: obj.orders.map((ord: any) => ord.total),
+            label: obj.customer,
+          };
+          return lineData;
+        });
+
+        console.log(dataLineChart);
+
       });
     });
   }
