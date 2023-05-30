@@ -3,7 +3,9 @@
   <div class="card-deck servers row row-cols-auto">
     <div *ngFor="let server of servers">
       <div class="col">
-        <app-server [server]="server" />
+        <app-server 
+          [_server]="server" 
+          (serverAction)="sendMessage($event)" />
       </div>
     </div>
   </div>
