@@ -1,6 +1,7 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Server } from 'src/app/models/server.model';
+import { ServerMessage } from 'src/app/models/server-message';
 
 @Component({
   selector: 'app-server',
@@ -10,30 +11,60 @@ import { Server } from 'src/app/models/server.model';
   styleUrls: ['./server.component.css']
 })
 export class ServerComponent implements OnInit {
-  @Input() server!: Server;
+  @Input() _server!: Server;
+  @Output() serverAction = new EventEmitter<ServerMessage>();
+
   color?: string;
   buttonText?: string;
+  serverStatus?: string;
+  isLoading?: boolean;
 
   constructor() {}
 
   ngOnInit(): void {
-    this.setServerStatus(this.server.isOnline);
+    this.setServerStatus(this._server.isOnline);
   }
 
   setServerStatus(isOnline: boolean) {
     if (isOnline) {
-      this.server.isOnline = true;
+      this._server.isOnline = true;
+      this.serverStatus = 'Online';
       this.color = '#66BB6A';
       this.buttonText = 'Shut Down';
     } else {
-      this.server.isOnline = false;
+      this._server.isOnline = false;
+      this.serverStatus = 'Offline';
       this.color = '#FF6B6B';
       this.buttonText = 'Start';
     }
   }
 
-  toogleStatus(onlineStatus: boolean) {
-    this.setServerStatus(!onlineStatus);
-  };
+  makeLoading() {
+    this.color = '#FFCA28';
+    this.buttonText = 'Pending...';
+    this.isLoading = true;
+    this.serverStatus = 'Loading';
+  }
+
+  sendServerAction(isOnline: boolean) {
+    console.log('sendServerAction called');
+    this.makeLoading();
+    const payload = this.buildPayload(isOnline);
+    this.serverAction.emit(payload);
+  }
+
+  buildPayload(isOnline: boolean): ServerMessage {
+    if (isOnline) {
+      return {
+        id: this._server.id,
+        payload: 'deactivate'
+      };
+    } else {
+      return {
+        id: this._server.id,
+        payload: 'activate'
+      };
+    }
+  }
 
 }
