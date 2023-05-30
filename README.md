@@ -3,6 +3,7 @@
 <br><br>
 <img width="40px" src="https://www.svgrepo.com/show/303230/angular-icon-logo.svg" />
 <img width="40px" style="padding-right:10px;" src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/ee/.NET_Core_Logo.svg/512px-.NET_Core_Logo.svg.png" />
+<img width="40px" style="padding-right:10px;" src="https://www.svgrepo.com/show/353622/c-sharp.svg" />
 <img width="40px" style="padding-right:10px;" src="https://www.svgrepo.com/show/354200/postgresql.svg" />
 <img width="45px" style="" src="https://getbootstrap.com/docs/5.0/assets/brand/bootstrap-logo.svg" />
 <img width="42px" style="padding-right:10px;" src="https://www.chartjs.org/img/chartjs-logo.svg" />
